@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-
+print(environment)
 
 
 if environment == "Development":
@@ -100,7 +100,6 @@ if environment == "Development":
 elif environment == "Staging":
     DATABASES = {}
     DATABASES['default'] = dj_database_url.config()
-    DATABASES['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 
 
