@@ -99,8 +99,8 @@ if environment == "Development":
 
 elif environment == "Staging":
     DATABASES = {}
-    DATABASES['ENGINE'] = 'django.db.backends.postgresql_psycopg2',
     DATABASES['default'] = dj_database_url.config()
+    DATABASES['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 
 
