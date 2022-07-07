@@ -13,8 +13,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv, find_dotenv
+import dj_database_url
 
 load_dotenv(find_dotenv())
+
+
+environment = os.getenv("ENVIRONMENT", "Development")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("MYKEY")
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = False
 
-ALLOWED_HOSTS = ['femi-blog.herokuapp.com']
+ALLOWED_HOSTS = ["femi-blog.herokuapp.com"]
 
 
 # Application definition
@@ -47,12 +52,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'myblog.urls'
@@ -79,12 +86,21 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+
+
+
+
+if environment == "Development":
+    DATABASE = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+
     }
-}
+
+elif environment == "Staging":
+    DATABASES = {}
+    DATABASES['default'] = dj_database_url.config()
+
 
 
 # Password validation
